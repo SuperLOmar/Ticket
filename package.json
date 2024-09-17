@@ -9,10 +9,10 @@
   "dependencies": {
     "discord.js": "^14.0.0",
     "dotenv": "^16.0.0",
-    "node-fetch": "^3.3.1" // If you need to make HTTP requests
+    "node-fetch": "^3.3.1",
   },
   "engines": {
-    "node": "20.x" // Ensure compatibility with your Node.js version
+    "node": "18.x"
   },
   "author": "Your Name",
   "license": "ISC"
