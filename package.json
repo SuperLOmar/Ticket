@@ -1,0 +1,19 @@
+{
+  "name": "ticket-bot",
+  "version": "1.0.0",
+  "description": "An advanced ticket system bot for Discord",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.0.0",
+    "dotenv": "^16.0.0",
+    "node-fetch": "^3.3.1" // If you need to make HTTP requests
+  },
+  "engines": {
+    "node": "20.x" // Ensure compatibility with your Node.js version
+  },
+  "author": "Your Name",
+  "license": "ISC"
+}
