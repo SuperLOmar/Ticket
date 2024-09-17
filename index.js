@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ChannelType, PermissionsBitField, Collection, REST, Routes } = require('discord.js');
+const { Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder, ChannelType, PermissionsBitField } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
@@ -12,8 +12,10 @@ const SUPPORT_ROLE_ID = 'YOUR_SUPPORT_ROLE_ID';
 const LOG_CHANNEL_ID = 'YOUR_LOG_CHANNEL_ID';
 const TICKETS_FILE = path.join(__dirname, 'tickets.json');
 const AUTO_MESSAGE_INTERVAL = 1000 * 60 * 60; // 1 hour
-const FAQ_CHANNEL_ID = 'YOUR_FAQ_CHANNEL_ID'; // Channel for FAQs
+const FAQ_CHANNEL_ID = 'YOUR_FAQ_CHANNEL_ID';
+const WEB_DASHBOARD_PORT = 3000;
 
+// Languages
 const LANGUAGES = {
     en: {
         welcome: 'Click the button below to create a support ticket.',
@@ -26,12 +28,10 @@ const LANGUAGES = {
         ticketAssigned: 'Your ticket has been assigned to {agent}.',
         ticketUpdated: 'Ticket has been updated with status: {status}.',
         reopenTicket: 'Your ticket has been reopened.',
-        multiStep: 'Your ticket has entered the next step of the resolution process.',
+        nextStep: 'Your ticket has entered the next step of the resolution process.',
     },
     // Add other languages here
 };
-
-const PRIORITIES = ['Low', 'Medium', 'High'];
 
 // Create client
 const client = new Client({
@@ -287,7 +287,7 @@ client.on('interactionCreate', async (interaction) => {
             tickets[ticketChannel.id].steps.push(new Date().toISOString());
             writeFile(TICKETS_FILE, tickets);
             await interaction.reply({
-                content: LANGUAGES.en.multiStep,
+                content: LANGUAGES.en.nextStep,
                 ephemeral: true,
             });
             logInteraction(interaction, `Ticket moved to next step in ${ticketChannel}`);
@@ -300,7 +300,7 @@ const getPriority = async (interaction) => {
     // Implement priority selection logic
     // This could involve sending a message with options to the user
     // and collecting their response.
-    return 'Medium'; // Placeholder
+    return 'High'; // Placeholder
 };
 
 const getSupportAgent = async (interaction) => {
@@ -342,8 +342,8 @@ app.get('/dashboard', (req, res) => {
 });
 
 const server = http.createServer(app);
-server.listen(3000, () => {
-    console.log('Web server running on port 3000');
+server.listen(WEB_DASHBOARD_PORT, () => {
+    console.log(`Web server running on port ${WEB_DASHBOARD_PORT}`);
 });
 
 // Error Handling
